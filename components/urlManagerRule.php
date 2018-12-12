@@ -52,7 +52,7 @@ class urlManagerRule extends BaseObject implements UrlRuleInterface
 
             foreach ($model as $categoryId)
             {
-                if ($categoryId['parentId'] == $model[0]['id'] || $categoryId['parentId'] == 0)
+                if ($categoryId['parentid'] == $model[0]['id'] || $categoryId['parentid'] == 0)
                 {
                     $id['id'][] = $categoryId['id'];
                 }

@@ -11,12 +11,25 @@ class Category extends ActiveRecord
         return 'category';
     }
 
+    // Родитель
+    public function getParent()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'parentid']);
+    }
+
+    // Дети
+    public function getChildren()
+    {
+        return $this->hasMany(Category::className(), ['parentid' => 'id']);
+    }
+
+
     public function rules()
     {
         return [
-            [['title', 'description', 'keywords', 'parentId'], 'required'],
+            [['title', 'description', 'keywords', 'parentid'], 'required'],
             [['title', 'description', 'keywords', 'url'], 'string', 'max' => 255],
-            [['parentId'], 'integer'],
+            [['parentid'], 'integer'],
         ];
     }
 
@@ -26,7 +39,7 @@ class Category extends ActiveRecord
           'title' => 'Загаловок',
           'description' => 'Описание',
           'keywords' => 'Ключивые слова',
-          'parantId' => 'Категория',
+          'parantid' => 'Категория',
         ];
     }
 }

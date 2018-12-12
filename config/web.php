@@ -67,9 +67,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'login' => 'site/login',
-                'registration-login' => 'site/registration-login',
-                'logout' => 'site/logout',
+                '/' => 'site/index',
+                '<action:login|logout|contact|registration-login|about>' => 'site/<action>', // Статичные страницы
+                '<action:category|category/create|contact|registration-login|about>' => 'admin/<action>', // Статичные страницы
+                //остальные правила в своем классе urlManagerRule
+                [
+                    'class' => 'app\components\urlManagerRule',
+
+                ],
             ],
         ],
 

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: медведь
- * Date: 10.12.2017
- * Time: 0:44
- */
+
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -12,6 +7,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
+use app\widgets\CategoryMenu;
 
 AppAsset::register($this);
 ?>
@@ -32,11 +28,11 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <!--[if LTE IE 8]>
-    <link rel="stylesheet" type="text/css" href="css/minimal-menu-ie.css" />
+    <link rel="stylesheet" type="text/css" href="/css/minimal-menu-ie.css" />
     <![endif]-->
     <!--[if lt IE 9]>
-    <script src="js/libs/html5shiv.js"></script>
-    <script src="js/libs/respond.js"></script>
+    <script src="/js/libs/html5shiv.js"></script>
+    <script src="/js/libs/respond.js"></script>
     <![endif]-->
     <?php $this->head() ?>
 </head>
@@ -57,14 +53,14 @@ AppAsset::register($this);
             <?php endif; ?>
 
             <li>
-                <a href="#" class="top-wishlist">
-                    Wish list
-                    <span>5</span>
+                <a href="<?= Url::to(['site/about']) ?>" class="top-wishlist">
+                    Желания
+                    <span>0</span>
                 </a>
             </li>
-            <li><a href="#">My account</a></li>
-            <li><a href="#">Shopping Cart</a></li>
-            <li><a href="#">Check out</a></li>
+
+
+            
         </ul>
         <!-- /.right-topbar -->
     </div>
@@ -72,36 +68,18 @@ AppAsset::register($this);
 <!-- /.topbar -->
 <header>
     <div class="container">
-        <a class="logo" href="index.html">
-            <img src="images/logo.png" alt="img" />
+        <a class="logo" href="/">
+            <img src="/images/logo2.png" alt="img" />
         </a>
         <!-- /.logo -->
         <nav class="main-nav">
             <div class="minimal-menu">
                 <ul class="menu">
-                    <li class="current-menu-item"><a href="index.html">HOMEPAGE</a></li>
-                    <li><a href="category.html">T-SHIRT</a></li>
-                    <li><a href="category.html">WOMEN</a></li>
-                    <li>
-                        <a href="#">CLOTHING</a>
-                        <ul class="sub-menu">
-                            <li><a href="auth.html">AUTH</a></li>
-                            <li>
-                                <a href="contact.html">CONTACT</a>
-                                <ul class="sub-menu">
-                                    <li><a href="contact.html">CONTACT1</a></li>
-                                    <li><a href="#">Submenu 22</a></li>
-                                    <li><a href="#">Submenu 23</a></li>
-                                    <li><a href="#">Submenu 24</a></li>
-                                    <li><a href="#">Submenu 25</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Submenu 3</a></li>
-                            <li><a href="#">Submenu 4</a></li>
-                            <li><a href="#">Submenu 5</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="category.html">ACCESSORIES</a></li>
+                    <li class="current-menu-item"><a href="<?= Url::to(['/']) ?>">Главная</a></li>
+                    <!--<li><a href="category.html">T-SHIRT</a></li>
+                    <li><a href="category.html">WOMEN</a></li>-->
+                    <?= CategoryMenu::widget(['view' => 'glMenu']) ?>
+                    
                 </ul>
             </div>
             <!-- /.minimal-menu -->
@@ -109,15 +87,15 @@ AppAsset::register($this);
         <!-- /.main-nav -->
         <div class="wrap-search">
             <form action="#" class="search-form">
-                <input type="text" placeholder="Search Bags.." />
+                <input type="text" placeholder="Поиск.." />
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>
         <!-- /.search-form -->
         <div class="top-cart">
             <a href="cart.html">
-                YOUR CART
-                <span>2</span>
+                Корзина
+                <span>0</span>
             </a>
         </div>
         <!-- /.top-cart -->
@@ -145,20 +123,19 @@ AppAsset::register($this);
                 <div class="clearfix">
                     <div class="wrap-select-currency">
                         <select class="custom-select currency-switch">
-                            <option value="0">USD</option>
-                            <option value="1">Euro</option>
+                            <option value="0">Рубль</option>
+                            <option value="1">Гривна</option>
                         </select>
                     </div>
                     <div class="wrap-select-country">
                         <select class="custom-select country-switch">
-                            <option value="0" data-icon="us-flag">United States</option>
-                            <option value="1" data-icon="fr-flag">France</option>
-                            <option value="2" data-icon="de-flag">Germany</option>
-                            <option value="3" data-icon="it-flag">Italy</option>
+                            <option value="0" data-icon="ru-flag">Russia</option>
+                            <option value="1" data-icon="ukr-flag">Ukranian</option>
+
                         </select>
                     </div>
                 </div>
-                <p class="copyright">© 2014 Designed by <a href="#"><strong>Kidesigner</strong></a>. All rights reserved</p>
+                <p class="copyright">© 2018 Designed by <a href="#"><strong>Shpirko</strong></a>. All rights reserved</p>
             </div>
         </div>
     </div>
