@@ -109,7 +109,7 @@ class SiteController extends CustomController
 
     public function actionRegistration()
     {
-        $this->setMeta('123');
+        $this->setMeta('Регистрация');
 
         $registration = new User();
 
@@ -117,31 +117,80 @@ class SiteController extends CustomController
 
         if($registration->load(Yii::$app->request->post()))
         {
-            $this->Password = $registration->password;
-
-            $registration->password = Yii::$app->security->generatePasswordHash($registration->password);
-            $registration->code = Yii::$app->getSecurity()->generateRandomString(10);
-
-            //CustomController::printr($registration);
-            //exit;
 
 
-            if($registration->save())
+            if (!User::find()->where(['email' => $registration->email])->limit(1)->all())
             {
-                Yii::$app->session->setFlash('success', 'Вам  отправлена ссылка с потверждением вашего Email');
-                return $this->goHome();
+                $this->Password = $registration->password;
+
+                $registration->password = Yii::$app->security->generatePasswordHash($registration->password);
+                $registration->code = Yii::$app->getSecurity()->generateRandomString(10);
+
+
+                if($registration->save())
+                {
+                    $registration->sendCongirmationLink();
+                    Yii::$app->session->setFlash('success', 'Вам  отправлена ссылка с потверждением вашего Email');
+                    return $this->goHome();
+                }
+                else
+                {
+
+                    $registration->password = $this->Password;
+                    return $this->render('reglog', compact('registration'));
+                }
             }
             else
             {
-                $registration->password = $this->Password;
-                return $this->render('reglog', compact('registration'));
+                Yii::$app->session->setFlash('info', 'Пользователь с таким Email существует, попробуйте востановить пароль.');
+                return $this->goHome();
             }
+
+
+
         }
 
         return $this->render('reglog', compact('registration'));
 
     }
 
+
+    public function actionConfirmemail()
+    {
+        $code = Yii::$app->request->get('code');
+        $email = Yii::$app->request->get('email');
+
+        if (!Yii::$app->user->isGuest)
+        {
+            return $this->goHome();
+        }
+
+        $user = User::find()->where(['code' => $code, 'email' => $email])->one();
+
+        if($user->active == 0)
+        {
+            $user->code = '';
+            $user->active = User::ACTIVE_USER;
+
+            if($user->save())
+            {
+                Yii::$app->session->setFlash('success', 'Аккаунт активирован');
+                return $this->goHome();
+            }
+            /*else
+            {
+                CustomController::printr($user->errors);
+                exit;
+            }*/
+
+        }
+        else
+        {
+
+            Yii::$app->session->setFlash('error', 'Не удалось активировать аккаунт, обратитесь к Администрации сайта.');
+            return $this->goHome();
+        }
+    }
 
     /**
      * Logout action.

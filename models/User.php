@@ -3,6 +3,9 @@
 namespace app\models;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use Yii;
 
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -11,6 +14,8 @@ class User extends ActiveRecord implements IdentityInterface
     public $_password;*/
     public $authKey;
     public $accessToken;
+
+    const ACTIVE_USER = 1;
 
     public static function tableName()
     {
@@ -42,6 +47,25 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'password', 'username','auth_key', 'code'], 'string', 'max' => 255],
             [[ 'username','sauth_key', 'code','active', 'is_email'], 'safe', 'on' => 'registration']
         ];
+    }
+
+    /**
+     * @return mixed
+     * Отправка почты с потверждением Email
+     */
+    public function sendCongirmationLink()
+    {
+        $confirmationLinkUrl = Url::to(['site/confirmemail', 'email' => $this->email, 'code' => $this->code]);
+        $confirmationLink = Html::a('Потвердите Email', $confirmationLinkUrl);
+
+        $sendingResult = Yii::$app->mailer->compose()
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setTo($this->email)
+            ->setSubject('Потвердите Email')
+            ->setHtmlBody('<p> Для прохождения регистрации Вам необходимо потвердить свой email</p>
+            <p>'. $confirmationLink .'</p>')
+            ->send();
+        return $sendingResult;
     }
 
 
