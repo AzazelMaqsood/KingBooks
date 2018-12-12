@@ -14,7 +14,7 @@ use yii\helpers\Url;
                     <div class="container">
                         <div class="page-title">
                             <h4>REQUIRED</h4>
-                            <h2>AUTHENTICATION</h2>
+                            <h2>АВТОРИЗАЦИЯ</h2>
                         </div>
                     </div>
                     <!-- /.page-title -->
