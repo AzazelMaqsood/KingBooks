@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Category;
+
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,11 +12,13 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\controllers\CustomController;
 
-class SiteController extends Controller
+
+class SiteController extends CustomController
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function behaviors()
     {
@@ -38,8 +43,10 @@ class SiteController extends Controller
         ];
     }
 
+    public $Password;
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function actions()
     {
@@ -61,8 +68,24 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        // вытащить все
+        ///$model = Category::find()->all();
+
+        // вытаскиваем запись с id = 6
+        //$model = Category::findOne(6);
+        //$model = Category::find()->where(['id' => 6])->all();
+
+        // вытаскиваем 3 первых записи
+        //$model = Category::find()->limit(3)->all();
+
+        //вытаскиваем 3 последних записи
+        //$model = Category::find()->orderBy('id DESC')->limit(3)->all();
+
+        return $this->render('index'/*, compact('model')*/);
     }
+
+
+
 
     /**
      * Login action.
@@ -79,12 +102,46 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
-
-        $model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
     }
+
+    public function actionRegistration()
+    {
+        $this->setMeta('123');
+
+        $registration = new User();
+
+        $registration->scenario = 'registration';
+
+        if($registration->load(Yii::$app->request->post()))
+        {
+            $this->Password = $registration->password;
+
+            $registration->password = Yii::$app->security->generatePasswordHash($registration->password);
+            $registration->code = Yii::$app->getSecurity()->generateRandomString(10);
+
+            //CustomController::printr($registration);
+            //exit;
+
+
+            if($registration->save())
+            {
+                Yii::$app->session->setFlash('success', 'Вам  отправлена ссылка с потверждением вашего Email');
+                return $this->goHome();
+            }
+            else
+            {
+                $registration->password = $this->Password;
+                return $this->render('reglog', compact('registration'));
+            }
+        }
+
+        return $this->render('reglog', compact('registration'));
+
+    }
+
 
     /**
      * Logout action.

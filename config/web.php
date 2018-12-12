@@ -49,7 +49,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'login' => 'site/login',
-                'contact' => 'site/contact',
+                'registration' => 'site/registration',
             ],
         ],
 

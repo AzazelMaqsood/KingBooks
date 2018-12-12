@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: медведь
- * Date: 10.12.2017
- * Time: 0:44
- */
+
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -44,7 +40,7 @@ AppAsset::register($this);
 <div class="topbar">
     <div class="container">
         <div class="left-topbar">
-            Welcome visitor you can <a href="#">login</a> or <a href="#">create an account</a>.
+            Добро пожаловать Вы можете <a href="<?=  Url::to(['/site/registration']) ?>">авторизоваться</a> или  <a href="<?=  Url::to(['/site/registration']) ?>">зарегистрироваться</a>.
         </div>
         <!-- /.left-topbar -->
         <ul class="right-topbar">
@@ -157,7 +153,6 @@ AppAsset::register($this);
 </footer>
 <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <?php $this->endBody() ?>
-
 </body>
 </html>
 <?php $this->endPage() ?>
