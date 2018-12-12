@@ -59,8 +59,8 @@ use yii\helpers\Url;
             <!-- /.payment-steps -->
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="caption">CREATE AN ACCOUNT</h3>
-                    <h5 class="gray-caption">Please enter your email address to create an account.</h5>
+                    <h3 class="caption">ЗАРЕГИСТРИРОВАТЬСЯ</h3>
+                    <h5 class="gray-caption">Пожалуста введите E-mail и пароль для регистрации.</h5>
                     <div class="row">
                         <div class="col-md-7">
 
@@ -68,6 +68,7 @@ use yii\helpers\Url;
                             <?php $form = ActiveForm::begin() ?>
 
                             <?=  $form->field($registration, 'email')->textInput() ?>
+
                             <?=  $form->field($registration, 'password')->passwordInput() ?>
 
                             <div class="form-group">
@@ -77,25 +78,29 @@ use yii\helpers\Url;
 
                             <?php ActiveForm::end() ?>
 
-
-                            <!--<form action="#" class="register-form">
-                                <div class="form-group">
-                                    <label for="email-address">Email Address</label>
-                                    <input type="email" id="email-address" />
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="orange-btn">Create an Account</button>
-                                </div>
-                            </form>-->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h3 class="caption">ALREADY REGISTERED</h3>
-                    <h5 class="gray-caption">Fill all information to login</h5>
+                    <h3 class="caption">АВТОРИЗАЦИЯ</h3>
+                    <h5 class="gray-caption">Пажалуста введите E-mail и пароль для авторизации</h5>
                     <div class="row">
                         <div class="col-md-7">
-                            <form action="#" class="login-form">
+
+                            <?php $formLogin = ActiveForm::begin() ?>
+
+                            <?=  $formLogin->field($login, 'email')->textInput() ?>
+
+                            <?=  $formLogin->field($login, 'password')->passwordInput() ?>
+
+                            <div class="form-group">
+                                <?= Html::submitButton('Авторизоваться', ['class' => 'pink-btn']) ?>
+
+                            </div>
+
+                            <?php ActiveForm::end() ?>
+
+                            <!--<form action="#" class="login-form">
                                 <div class="form-group">
                                     <label for="email-address">Email Address</label>
                                     <input type="email" id="email-address" />
@@ -110,7 +115,7 @@ use yii\helpers\Url;
                                 <div class="form-group">
                                     <button type="submit" class="pink-btn">Sign In</button>
                                 </div>
-                            </form>
+                            </form>-->
                         </div>
                     </div>
                 </div>

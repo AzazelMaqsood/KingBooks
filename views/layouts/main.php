@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: медведь
+ * Date: 10.12.2017
+ * Time: 0:44
+ */
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -40,10 +45,17 @@ AppAsset::register($this);
 <div class="topbar">
     <div class="container">
         <div class="left-topbar">
-            Добро пожаловать Вы можете <a href="<?=  Url::to(['/site/registration']) ?>">авторизоваться</a> или  <a href="<?=  Url::to(['/site/registration']) ?>">зарегистрироваться</a>.
+            Добро пожаловать Вы можете <a href="<?=  Url::to(['/site/registration-login']) ?>">авторизоваться</a> или  <a href="<?=  Url::to(['/site/registration-login']) ?>">зарегистрироваться</a>.
         </div>
         <!-- /.left-topbar -->
         <ul class="right-topbar">
+
+            <?php if(!Yii::$app->user->isGuest) : ?>
+
+            <li><a href="<?= Url::to(['site/logout']) ?>">Выйти</a></li>
+
+            <?php endif; ?>
+
             <li>
                 <a href="#" class="top-wishlist">
                     Wish list
